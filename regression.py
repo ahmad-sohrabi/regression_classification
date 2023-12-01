@@ -14,7 +14,7 @@ def kfold_mean_error(model, input, output, k):
     kf = KFold(n_splits=k)
     error = []
     for train_index, test_index in kf.split(input):
-        X_train, X_test, y_train, y_test = input[train_index,:], input[test_index], \
+        X_train, X_test, y_train, y_test = input[train_index, :], input[test_index], \
             output[train_index], output[test_index]
 
         model.fit(X_train, y_train)
@@ -27,6 +27,31 @@ def kfold_mean_error(model, input, output, k):
 
 
 data = pd.read_csv("train_regression.csv")
+
+price = data["SalePrice"]
+area = data["LotArea"]
+rooms = data["TotRmsAbvGrd"]
+
+price.fillna(method='ffill', inplace=True)
+area.fillna(method='ffill', inplace=True)
+rooms.fillna(method='ffill', inplace=True)
+
+price.dropna(inplace=True)
+area.dropna(inplace=True)
+rooms.dropna(inplace=True)
+
+plt.scatter(area, price)
+plt.title("Price vs Area")
+plt.ylabel("Price (Dollars)")
+plt.xlabel("Area (Square Feet)")
+plt.show()
+
+plt.scatter(rooms, price)
+plt.title("Price vs Rooms")
+plt.ylabel("Price (Dollars)")
+plt.xlabel("Rooms NO.")
+plt.show()
+
 data.drop(columns=['Alley', 'Id', 'PoolQC', 'Fence', 'MiscFeature', 'FireplaceQu', 'LotFrontage'], inplace=True)
 data.fillna(method='ffill', inplace=True)
 data.dropna(inplace=True)
@@ -52,6 +77,7 @@ train_rmse_lin = np.sqrt(mean_squared_error(target_train, train_predicted_price_
 
 test_predicted_price_lin = lin_reg.predict(input_test)
 test_rmse_lin = np.sqrt(mean_squared_error(target_test, test_predicted_price_lin))
+print(f"Linear Regression Error On Test Data is: {test_rmse_lin}")
 
 lasso_reg = Lasso(alpha=1)
 lasso_reg.fit(input_train, target_train)
@@ -60,6 +86,7 @@ train_rmse_lasso = np.sqrt(mean_squared_error(target_train, train_predicted_pric
 
 test_predicted_price_lasso = lasso_reg.predict(input_test)
 test_rmse_lasso = np.sqrt(mean_squared_error(target_test, test_predicted_price_lasso))
+print(f"Lasso Regression Error On Test Data is: {test_rmse_lasso}")
 
 ridge_reg = Ridge(alpha=1)
 ridge_reg.fit(input_train, target_train)
@@ -68,44 +95,16 @@ train_rmse_ridge = np.sqrt(mean_squared_error(target_train, train_predicted_pric
 
 test_predicted_price_ridge = ridge_reg.predict(input_test)
 test_rmse_ridge = np.sqrt(mean_squared_error(target_test, test_predicted_price_ridge))
-
+print(f"Ridge Regression Error On Test Data is: {test_rmse_ridge}")
 
 labels = ["Linear", "Ridge", "Lasso"]
 errors = [test_rmse_lin, test_rmse_ridge, test_rmse_lasso]
 plt.bar(labels, errors)
-plt.title("Area RMSE Comparison")
+plt.title("RMSE Comparison of Different Models")
 plt.ylabel("RMSE")
 plt.show()
 
-
-train_data = pd.read_csv("train_regression.csv")
-price = train_data["SalePrice"]
-area = train_data["LotArea"]
-rooms = train_data["TotRmsAbvGrd"]
-
-price.fillna(method='ffill', inplace=True)
-area.fillna(method='ffill', inplace=True)
-rooms.fillna(method ='ffill', inplace = True)
-
-price.dropna(inplace=True)
-area.dropna(inplace=True)
-rooms.dropna(inplace = True)
-
-plt.scatter(area, price)
-plt.title("Price vs Area")
-plt.ylabel("Price (Dollars)")
-plt.xlabel("Area (Square Feet)")
-plt.show()
-
-plt.scatter(rooms, price)
-plt.title("Price vs Rooms")
-plt.ylabel("Price (Dollars)")
-plt.xlabel("Rooms NO.")
-plt.show()
-
 area_train, area_test, price_train, price_test = train_test_split(area, price, test_size=0.30, random_state=42)
-
-
 
 price_train = np.array(price_train).reshape(-1, 1)
 area_train = np.array(area_train).reshape(-1, 1)
@@ -130,12 +129,9 @@ price_test = np.array(price_test).reshape(-1, 1)
 area_test = np.array(area_test).reshape(-1, 1)
 area = np.array(area).reshape(-1, 1)
 
-price = np.array(price).reshape(-1, 1)
-
 area_test_lin_price_pred = area_reg.predict(area_test)
 area_rmse_lin = np.sqrt(mean_squared_error(price_test, area_test_lin_price_pred))
-
-
+print(f"Linear Regression Error On Test Data For Only One Feature is: {area_rmse_lin}")
 
 max_k = 10
 lin_mean_error = np.array([])

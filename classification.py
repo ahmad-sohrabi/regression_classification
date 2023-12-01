@@ -31,17 +31,16 @@ logistic_reg = LogisticRegression(max_iter=10000)
 logistic_reg.fit(input_train, target_train)
 predictions = logistic_reg.predict(input_test)
 score = logistic_reg.score(input_test, target_test)
+
+print(f"Accuracy Score For Test Data is: {score}")
+
 confusion_matrix = metrics.confusion_matrix(target_test, predictions)
-plt.figure(1).set_figheight(35)
-plt.figure(1).set_figwidth(20)
-plt.subplot(211)
 sns.heatmap(confusion_matrix, annot=True, fmt=".3f", linewidths=.5, square=True, cmap='Blues_r')
 plt.ylabel('Actual label')
 plt.xlabel('Predicted label')
 all_sample_title = 'Accuracy Score: {0}'.format(score)
-plt.title(all_sample_title, size=15)
-
-logistic_reg2 = LogisticRegression()
+plt.title(all_sample_title, size=13)
+plt.show()
 
 max_k = 10
 log_reg_mean_scores = np.array([])
@@ -50,7 +49,6 @@ for k in range(2, max_k + 1):
     model = LogisticRegression(max_iter=10000)
     scores = cross_val_score(model, input_x, target, scoring='accuracy', cv=cv, n_jobs=-1)
     log_reg_mean_scores = np.append(log_reg_mean_scores, np.mean(scores))
-plt.subplot(212)
 plt.plot(range(2, max_k + 1), log_reg_mean_scores, linewidth=5)
 plt.title("Compare different K in K-Fold")
 plt.xlabel("K")
