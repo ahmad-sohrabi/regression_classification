@@ -20,15 +20,18 @@ So 73 input feature is remained as the input of algorithms.
 ![Price Area Scatter](https://github.com/ahmad-sohrabi/regression_classification/blob/main/regression_result/price_area_scatter.png?raw=true)
 ![Price Rooms Scatter](https://github.com/ahmad-sohrabi/regression_classification/blob/main/regression_result/price_rooms_scatter.png?raw=true)
 ### Regressions Result
-The Result which is obtained from 3 mentioned algorithms are somehow similar to each other and RMSE of test data is about 33636 dollars.
+The Result which is obtained from 3 mentioned algorithms are compared with each other.
 <br />
 Comparison of 3 algorithms in a bar plot is like this:
 <br />
-![RMSE Bar](https://github.com/ahmad-sohrabi/regression_classification/blob/main/regression_result/rmse_bar_comparison.png?raw=true)
-### K-Fold Cross validation of models
-For K from 2 to 10, K-Fold cross validation Mean RMSE is calculated and plotted. As a sample you can see Linear regression K-Fold plot:
+![RMSE Bar](https://github.com/ahmad-sohrabi/regression_classification/blob/main/regression_result/rmse_bar_comparison_dummy.png?raw=true)
 <br />
-![Linear Regression K-Fold](https://github.com/ahmad-sohrabi/regression_classification/blob/main/regression_result/KFoldLinear.png?raw=true)
+![R2 Bar](https://github.com/ahmad-sohrabi/regression_classification/blob/main/regression_result/r2_bar_comparison.png?raw=true)
+
+### K-Fold Cross validation of models
+For K from 2 to 10, K-Fold cross validation Mean R2 Score is calculated and plotted. As a sample you can see Linear regression K-Fold plot:
+<br />
+![Linear Regression K-Fold](https://github.com/ahmad-sohrabi/regression_classification/blob/main/regression_result/R2KFoldLinear.png?raw=true)
 
 ## Classification Problem
 This part consist of a logistic regression.
